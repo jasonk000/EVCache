@@ -76,7 +76,7 @@ public class EVCacheNodeLocator implements NodeLocator {
                 alg == DefaultHashAlgorithm.KETAMA_HASH ? new KetamaMd5HashRingAlgorithm()
                         : new SimpleHashRingAlgorithm(alg),
                 conf,
-                TreeMapNodeLocatorLookup::new);
+                NodeLocatorLookup.EytzingerNodeLocatorLookup::new);
     }
 
     private EVCacheNodeLocator(EVCacheClient client, TreeMap<Long, MemcachedNode> smn, Collection<MemcachedNode> an, HashRingAlgorithm hashRingAlgorithm, KetamaNodeLocatorConfiguration conf, Function<TreeMap<Long, MemcachedNode>, NodeLocatorLookup<MemcachedNode>> lookupFactory) {
