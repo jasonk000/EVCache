@@ -20,6 +20,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiPredicate;
 
+import com.netflix.evcache.pool.EVCacheClientUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +58,6 @@ import net.spy.memcached.ops.StoreOperation;
 import net.spy.memcached.ops.StoreType;
 import net.spy.memcached.protocol.binary.BinaryOperationFactory;
 import net.spy.memcached.transcoders.Transcoder;
-import net.spy.memcached.util.StringUtils;
 import net.spy.memcached.protocol.ascii.ExecCmdOperation;
 import net.spy.memcached.protocol.ascii.MetaDebugOperation;
 import net.spy.memcached.protocol.ascii.MetaGetOperation;
@@ -208,7 +208,7 @@ public class EVCacheMemcachedClient extends MemcachedClient {
 
         //Populate Node and key Map
         for (String key : keys) {
-            StringUtils.validateKey(key, opFact instanceof BinaryOperationFactory);
+            EVCacheClientUtil.validateKey(key, opFact instanceof BinaryOperationFactory);
             final MemcachedNode primaryNode = locator.getPrimary(key);
             if (primaryNode.isActive() && nodeValidator.test(primaryNode, key)) {
                 Collection<String> ks = chunks.computeIfAbsent(primaryNode, k -> new ArrayList<>());
